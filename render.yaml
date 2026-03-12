@@ -1,5 +1,5 @@
 services:
-  # Backend FastAPI Service (Web Service)
+  # Backend FastAPI Service
   - type: web
     name: agentic-rag-backend
     env: python
@@ -26,9 +26,9 @@ services:
       - key: JWT_ALGORITHM
         value: HS256
 
-staticSites:
   # Frontend React Static Site
-  - name: agentic-rag-frontend
+  - type: web
+    name: agentic-rag-frontend
     env: static
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: frontend/dist
