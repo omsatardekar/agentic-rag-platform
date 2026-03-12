@@ -1,0 +1,41 @@
+fastapi
+uvicorn
+python-dotenv
+pydantic
+python-multipart
+email-validator
+
+# Auth
+passlib[bcrypt]
+python-jose
+google-auth-library
+
+# Database
+pymongo
+qdrant-client
+
+# LLM + Embeddings
+groq
+voyageai
+tavily-python
+langchain
+langchain-community
+langchain-openai
+openai
+
+# Document processing
+pdfplumber
+python-docx
+
+# Image processing
+pillow
+pytesseract
+opencv-python
+
+# Audio
+SpeechRecognition
+whisper
+
+# Video
+moviepy
+ffmpeg-python
