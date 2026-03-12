@@ -1,5 +1,5 @@
 services:
-  # Backend FastAPI Service
+  # Backend FastAPI Service (Web Service)
   - type: web
     name: agentic-rag-backend
     env: python
@@ -26,15 +26,15 @@ services:
       - key: JWT_ALGORITHM
         value: HS256
 
+staticSites:
   # Frontend React Static Site
-  - type: static_site
-    name: agentic-rag-frontend
+  - name: agentic-rag-frontend
     env: static
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: frontend/dist
     envVars:
       - key: VITE_API_URL
-        value: https://${agentic-rag-backend.host}/api
+        value: https://agentic-rag-backend.onrender.com/api
     routes:
       - type: rewrite
         source: /*
