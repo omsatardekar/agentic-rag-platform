@@ -8,7 +8,14 @@ from PIL import Image
 import pytesseract
 
 import speech_recognition as sr
-from moviepy.editor import VideoFileClip
+try:
+    from moviepy.editor import VideoFileClip
+except (ImportError, ModuleNotFoundError):
+    try:
+        from moviepy import VideoFileClip
+    except (ImportError, ModuleNotFoundError):
+        VideoFileClip = None
+        logging.warning("MoviePy not found. Video processing will be disabled.")
 
 from app.ingestion.vector_database import ingest_document
 
