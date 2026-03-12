@@ -52,10 +52,34 @@ async def extract_only(file: UploadFile = File(...)):
         logger.error(f"Extraction failed: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.post("/confirm-ingest")
-async def confirm_ingest(data: dict):
+from fastapi import BackgroundTasks
+
+def run_background_ingest(text: str, metadata: dict, file_path: str):
     """
-    Step 2: Take edited text and perform vector ingestion.
+    Heavy task run outside the main request/response loop.
+    """
+    try:
+        chunks, status_info = vector_db.ingest_document(text, metadata)
+        
+        if chunks > 0:
+            # Save to MongoDB
+            doc_record = {
+                **metadata,
+                "status": "Indexed",
+                "path": file_path,
+                "chunks": chunks
+            }
+            documents_collection.insert_one(doc_record)
+            logger.info(f"Background Ingestion for {metadata['filename']} successful: {chunks} chunks.")
+        else:
+            logger.error(f"Background Ingestion for {metadata['filename']} failed: {status_info}")
+    except Exception as e:
+        logger.error(f"Background process error: {e}")
+
+@router.post("/confirm-ingest")
+async def confirm_ingest(data: dict, background_tasks: BackgroundTasks):
+    """
+    Step 2: Take edited text and perform vector ingestion in background.
     """
     try:
         text = data.get("text")
@@ -76,60 +100,37 @@ async def confirm_ingest(data: dict):
             "size": size
         }
 
-        chunks, status_info = vector_db.ingest_document(text, metadata)
-
-        if chunks == 0:
-            error_msg = status_info.get("error", "Vector ingestion failed.")
-            raise HTTPException(status_code=500, detail=error_msg)
-
-        # Save to MongoDB
-        doc_record = {
-            **metadata,
-            "status": "Indexed",
-            "path": file_path,
-            "chunks": chunks
-        }
-        documents_collection.insert_one(doc_record)
+        # Run process in background to avoid Render timeout
+        background_tasks.add_task(run_background_ingest, text, metadata, file_path)
 
         return {
             "status": "success",
-            "message": "Knowledge Base updated",
-            "filename": filename,
-            "chunks": chunks
+            "message": "Ingestion started in background. The dashboard will update shortly.",
+            "filename": filename
         }
     except Exception as e:
-        logger.error(f"Ingestion confirmation failed: {e}")
+        logger.error(f"Ingestion trigger failed: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 # =====================================
 # ADMIN FILE UPLOAD (LEGACY)
 # =====================================
 @router.post("/upload")
-async def upload_file(file: UploadFile = File(...)):
+async def upload_file(file: UploadFile = File(...), background_tasks: BackgroundTasks = None):
     """
-    1. Save file to local storage
-    2. Extract text (PDF/DOCX/Audio/OCR)
-    3. Chunk & Embed via VectorDatabase
-    4. Save record in MongoDB for list management
+    Legacy endpoint: performs extraction synchronously but ingestion in background.
     """
     try:
         file_id = str(uuid.uuid4())
         filename = file.filename
         file_path = os.path.join(UPLOAD_DIR, f"{file_id}_{filename}")
 
-        # -----------------------------
-        # 1. Save to Local Storage
-        # -----------------------------
         with open(file_path, "wb") as buffer:
             shutil.copyfileobj(file.file, buffer)
 
-        # -----------------------------
-        # 2. Extract Text
-        # -----------------------------
         try:
             text, file_type = process_file(file_path, filename)
         except Exception as e:
-            # Cleanup if parsing fails
             if os.path.exists(file_path): os.remove(file_path)
             raise HTTPException(status_code=400, detail=f"Parsing failed: {str(e)}")
 
@@ -137,9 +138,6 @@ async def upload_file(file: UploadFile = File(...)):
             if os.path.exists(file_path): os.remove(file_path)
             raise HTTPException(status_code=400, detail="No readable text found in document.")
 
-        # -----------------------------
-        # 3. Create Metadata & Ingest
-        # -----------------------------
         metadata = {
             "id": file_id,
             "filename": filename,
@@ -148,35 +146,18 @@ async def upload_file(file: UploadFile = File(...)):
             "size": os.path.getsize(file_path)
         }
 
-        chunks, status_info = vector_db.ingest_document(text, metadata)
-
-        if chunks == 0:
-            error_msg = status_info.get("error", "Vector ingestion failed.")
-            raise HTTPException(status_code=500, detail=error_msg)
-
-        # -----------------------------
-        # 4. Save to MongoDB
-        # -----------------------------
-        doc_record = {
-            **metadata,
-            "status": "Indexed",
-            "path": file_path,
-            "chunks": chunks
-        }
-        documents_collection.insert_one(doc_record)
+        # Background Task
+        background_tasks.add_task(run_background_ingest, text, metadata, file_path)
 
         return {
             "status": "success",
-            "message": "Knowledge Base updated",
-            "filename": filename,
-            "chunks": chunks
+            "message": "Upload complete. Ingestion started in background.",
+            "filename": filename
         }
 
-    except HTTPException as he:
-        raise he
     except Exception as e:
         logger.error(f"Upload failed: {e}")
-        return {"status": "error", "message": str(e)}
+        raise HTTPException(status_code=500, detail=str(e))
 
 # =====================================
 # LIST DOCUMENTS
