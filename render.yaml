@@ -23,6 +23,10 @@ services:
         sync: false
       - key: QDRANT_API_KEY
         sync: false
+      - key: QDRANT_COLLECTION
+        value: medical_research_v1
+      - key: VECTOR_DIMENSION
+        value: "1024"
       - key: JWT_SECRET
         generateValue: true
       - key: JWT_ALGORITHM
