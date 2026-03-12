@@ -9,7 +9,7 @@ email-validator
 # Auth
 passlib[bcrypt]
 python-jose
-google-auth-library
+google-auth
 
 # Database
 pymongo
