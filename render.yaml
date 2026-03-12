@@ -33,11 +33,7 @@ services:
     staticPublishPath: frontend/dist
     envVars:
       - key: VITE_API_URL
-        fromService:
-          type: web
-          name: agentic-rag-backend
-          property: host
-        value: ${agentic-rag-backend.host}/api
+        value: https://${agentic-rag-backend.host}/api
     routes:
       - type: rewrite
         source: /*
