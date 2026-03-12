@@ -35,8 +35,8 @@ opencv-python
 
 # Audio
 SpeechRecognition
-whisper
+openai-whisper
 
 # Video
-moviepy
+moviepy==1.0.3
 ffmpeg-python
