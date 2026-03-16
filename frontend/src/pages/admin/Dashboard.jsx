@@ -38,6 +38,8 @@ const Dashboard = () => {
     const { logout, user } = useAuth();
     const navigate = useNavigate();
 
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
     useEffect(() => {
         if (activeTab === 'overview') {
             fetchStats();
@@ -186,8 +188,16 @@ const Dashboard = () => {
     return (
         <div className="flex h-screen bg-slate-950 overflow-hidden font-sans">
 
+            {/* Mobile Toggle Button */}
+            <button 
+                onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+                className="lg:hidden fixed bottom-6 right-6 z-[100] w-14 h-14 rounded-full bg-violet-600 text-white shadow-2xl shadow-violet-600/40 flex items-center justify-center active:scale-95 transition-all"
+            >
+                {isSidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+
             {/* Sidebar */}
-            <aside className="w-72 glass border-r border-white/5 flex flex-col z-50 overflow-hidden">
+            <aside className={`fixed inset-y-0 left-0 w-72 glass border-r border-white/5 flex flex-col z-[60] overflow-hidden lg:relative lg:translate-x-0 transition-transform duration-500 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
                 <div className="p-8">
                     <Link to="/" className="flex items-center gap-2 group mb-10">
                         <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-violet-600/30 group-hover:scale-110 transition duration-300">
@@ -201,31 +211,31 @@ const Dashboard = () => {
                             icon={<LayoutDashboard className="w-5 h-5 text-violet-400" />}
                             label="Overview"
                             active={activeTab === 'overview'}
-                            onClick={() => setActiveTab('overview')}
+                            onClick={() => { setActiveTab('overview'); setIsSidebarOpen(false); }}
                         />
                         <SideLink
                             icon={<Database className="w-5 h-5 text-blue-400" />}
                             label="Doc Injection"
                             active={activeTab === 'injection'}
-                            onClick={() => setActiveTab('injection')}
+                            onClick={() => { setActiveTab('injection'); setIsSidebarOpen(false); }}
                         />
                         <SideLink
                             icon={<FileText className="w-5 h-5 text-emerald-400" />}
                             label="My Documents"
                             active={activeTab === 'documents'}
-                            onClick={() => setActiveTab('documents')}
+                            onClick={() => { setActiveTab('documents'); setIsSidebarOpen(false); }}
                         />
                         <SideLink
                             icon={<Users className="w-5 h-5 text-rose-400" />}
                             label="User Management"
                             active={activeTab === 'users'}
-                            onClick={() => setActiveTab('users')}
+                            onClick={() => { setActiveTab('users'); setIsSidebarOpen(false); }}
                         />
                         <SideLink
                             icon={<Activity className="w-5 h-5 text-amber-400" />}
                             label="System Logs"
                             active={activeTab === 'logs'}
-                            onClick={() => setActiveTab('logs')}
+                            onClick={() => { setActiveTab('logs'); setIsSidebarOpen(false); }}
                         />
                     </nav>
                 </div>
@@ -253,13 +263,13 @@ const Dashboard = () => {
             </aside>
 
             {/* Main Content */}
-            <main className="flex-1 overflow-y-auto px-10 py-12 custom-scrollbar relative">
+            <main className="flex-1 overflow-y-auto px-6 md:px-10 py-10 md:py-12 custom-scrollbar relative">
                 <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-violet-600/5 blur-[150px] -z-10 rounded-full opacity-50" />
 
                 {/* Header section */}
-                <header className="mb-12 flex justify-between items-end">
+                <header className="mb-12 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                     <div>
-                        <h1 className="text-4xl font-bold text-white mb-2">
+                        <h1 className="text-3xl md:text-5xl font-black text-white mb-2 tracking-tight">
                             {activeTab === 'overview' && 'System Analytics'}
                             {activeTab === 'injection' && 'Knowledge Injection'}
                             {activeTab === 'documents' && 'Document Management'}
@@ -269,14 +279,14 @@ const Dashboard = () => {
                         <p className="text-slate-400 font-medium tracking-tight">Managing <span className="text-violet-400">Agentic RAG</span> core performance.</p>
                     </div>
 
-                    <div className="flex gap-4">
+                    <div className="flex flex-wrap gap-4 w-full md:w-auto">
                         <button 
                             onClick={() => setShowSearchModal(true)}
-                            className="flex items-center gap-2 px-5 py-2.5 glass-card border-none rounded-2xl text-sm font-bold text-slate-300 hover:text-white transition group bg-white/5"
+                            className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 md:py-2.5 glass-card border-none rounded-2xl text-sm font-black text-white hover:bg-white/10 transition group bg-white/5 uppercase tracking-widest"
                         >
                             <Search className="w-4 h-4 group-hover:scale-110 transition" /> Global Search
                         </button>
-                        <label className="btn-primary shadow-violet-600/20 px-6 py-2.5 cursor-pointer flex items-center gap-2">
+                        <label className="flex-1 md:flex-none btn-primary shadow-violet-600/20 px-8 py-3 md:py-2.5 cursor-pointer flex items-center justify-center gap-2 text-sm font-black uppercase tracking-widest">
                             <Plus className="w-4 h-4" /> New Entry
                             <input type="file" className="hidden" onChange={handleFileUpload} />
                         </label>
@@ -407,11 +417,11 @@ const Overview = ({ stats, trends, activities, chartData, onViewAll }) => {
 
     return (
     <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
-        <div className="grid md:grid-cols-4 gap-8">
-            <StatBox icon={<Database />} label="Total Points" value={stats.total_vectors} trend={trends?.vectors || '+0%'} colorClass="text-violet-500" />
-            <StatBox icon={<Search />} label="Total Queries" value={stats.total_queries} trend={trends?.queries || '+0%'} colorClass="text-blue-500" />
-            <StatBox icon={<FileText />} label="Knowledge Base" value={stats.kb_size} trend={trends?.size || '+0%'} colorClass="text-emerald-500" />
-            <StatBox icon={<Activity />} label="Agent Runtime" value={stats.runtime} trend="Healthy" colorClass="text-amber-500" />
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
+            <StatBox icon={<Database />} label="Points" value={stats.total_vectors} trend={trends?.vectors || '+0%'} colorClass="text-violet-500" />
+            <StatBox icon={<Search />} label="Queries" value={stats.total_queries} trend={trends?.queries || '+0%'} colorClass="text-blue-500" />
+            <StatBox icon={<FileText />} label="Size" value={stats.kb_size} trend={trends?.size || '+0%'} colorClass="text-emerald-500" />
+            <StatBox icon={<Activity />} label="Uptime" value={stats.runtime} trend="Healthy" colorClass="text-amber-500" />
         </div>
 
         <div className="grid md:grid-cols-2 gap-8">
@@ -499,14 +509,14 @@ const timeAgo = (dateString) => {
 };
 
 const StatBox = ({ icon, label, value, trend, colorClass }) => (
-    <div className="glass-card p-8 border-white/5 relative overflow-hidden group">
-        <div className={`absolute top-0 right-0 p-4 opacity-10 group-hover:scale-125 group-hover:opacity-20 transition duration-500 ${colorClass}`}>
+    <div className="glass-card p-5 md:p-8 border-white/5 relative overflow-hidden group">
+        <div className={`absolute top-0 right-0 p-3 md:p-4 opacity-10 group-hover:scale-125 group-hover:opacity-20 transition duration-500 ${colorClass}`}>
             {icon}
         </div>
-        <div className="text-xs font-bold text-slate-500 uppercase tracking-[0.2em] mb-4">{label}</div>
-        <div className="text-4xl font-bold text-white mb-4">{value}</div>
-        <div className="text-xs font-bold text-emerald-400 flex items-center gap-1">
-            <Activity className="w-3 h-3" /> {trend} <span className="text-slate-600 ml-1 italic font-medium">vs last month</span>
+        <div className="text-[9px] md:text-xs font-black text-slate-500 uppercase tracking-[0.2em] mb-3 md:mb-4">{label}</div>
+        <div className="text-2xl md:text-4xl font-black text-white mb-3 md:mb-4">{value}</div>
+        <div className="text-[9px] md:text-xs font-bold text-emerald-400 flex items-center gap-1">
+            <Activity className="w-3 h-3" /> {trend}
         </div>
     </div>
 );
@@ -539,15 +549,15 @@ const Injection = ({ handleFileUpload, isUploading, reviewingText, setReviewingT
                         <FileText className="w-64 h-64 text-violet-400" />
                     </div>
                     
-                    <div className="flex justify-between items-center mb-8 relative z-10">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8 relative z-10">
                         <div>
-                            <h2 className="text-2xl font-bold text-white mb-2">Review Extracted Content</h2>
-                            <p className="text-slate-400 text-sm font-medium">Verified from: <span className="text-violet-400 font-bold">{filename}</span></p>
+                            <h2 className="text-2xl md:text-3xl font-black text-white mb-2 tracking-tight">Review Content</h2>
+                            <p className="text-slate-400 text-sm font-medium uppercase tracking-widest">Verified: <span className="text-violet-400 font-black">{filename}</span></p>
                         </div>
-                        <div className="flex gap-4">
+                        <div className="flex gap-4 w-full md:w-auto">
                             <button 
                                 onClick={() => setReviewingText(null)}
-                                className="px-6 py-2.5 rounded-2xl glass border border-white/5 text-slate-400 font-bold hover:bg-white/5 transition text-sm"
+                                className="flex-1 md:flex-none px-6 py-3 rounded-2xl glass border border-white/5 text-slate-400 font-black uppercase tracking-widest hover:bg-white/5 transition text-[10px]"
                                 disabled={isIngesting}
                             >
                                 Cancel
@@ -555,25 +565,25 @@ const Injection = ({ handleFileUpload, isUploading, reviewingText, setReviewingT
                             <button 
                                 onClick={handleConfirmIngest}
                                 disabled={isIngesting}
-                                className="btn-primary px-8 py-2.5 shadow-violet-600/20 flex items-center gap-2 text-sm font-bold"
+                                className="flex-1 md:flex-none btn-primary px-8 py-3 shadow-violet-600/20 flex items-center justify-center gap-2 text-[10px] font-black uppercase tracking-widest"
                             >
                                 {isIngesting ? (
                                     <>
-                                        <Loader2 className="w-4 h-4 animate-spin" /> Ingesting...
+                                        <Loader2 className="w-4 h-4 animate-spin" /> Ingesting
                                     </>
                                 ) : (
                                     <>
-                                        <ShieldCheck className="w-4 h-4" /> Finalize Injection
+                                        <ShieldCheck className="w-4 h-4" /> Finalize
                                     </>
                                 )}
                             </button>
                         </div>
                     </div>
 
-                    <div className="relative group min-h-[500px] bg-slate-900/50 rounded-3xl border border-white/5 overflow-hidden">
+                    <div className="relative group min-h-[400px] md:min-h-[500px] bg-slate-900/50 rounded-3xl border border-white/5 overflow-hidden">
                         <div className="absolute top-4 left-4 z-10 text-[10px] font-black text-violet-500 uppercase tracking-widest bg-violet-500/10 px-2 py-1 rounded">Editor Active</div>
                         <textarea 
-                            className="w-full h-full min-h-[500px] bg-transparent p-12 text-slate-300 font-medium leading-relaxed outline-none border-none resize-none custom-scrollbar text-lg"
+                            className="w-full h-full min-h-[400px] md:min-h-[500px] bg-transparent p-6 md:p-12 text-slate-300 font-medium leading-relaxed outline-none border-none resize-none custom-scrollbar text-base md:text-lg"
                             value={reviewingText}
                             onChange={(e) => setReviewingText(e.target.value)}
                             disabled={isIngesting}

@@ -153,18 +153,18 @@ const Chat = () => {
                 />
             )}
 
-            <main className={`flex-1 flex flex-col relative transition-all duration-300 ${user && isSidebarOpen ? 'ml-72' : 'ml-0'}`}>
+            <main className={`flex-1 flex flex-col relative transition-all duration-300 ${user && isSidebarOpen ? 'md:ml-72' : 'ml-0'}`}>
 
                 {/* Header */}
-                <header className="h-16 flex items-center justify-between px-6 border-b border-white/5 bg-slate-900/20 backdrop-blur-md z-20">
+                <header className="h-16 flex items-center justify-between px-4 md:px-6 border-b border-white/5 bg-slate-900/20 backdrop-blur-md z-20 shrink-0">
                     <div className="flex items-center gap-3">
                         {(!isSidebarOpen || !user) && (
-                            <div className="w-8 h-8 rounded-lg bg-violet-600 flex items-center justify-center">
+                            <div className="w-8 h-8 rounded-lg bg-violet-600 flex items-center justify-center shrink-0">
                                 <Brain className="w-5 h-5 text-white" />
                             </div>
                         )}
-                        <h2 className="text-sm font-bold text-slate-200">
-                            AI Assistant <span className="text-violet-500">•</span> <span className="text-emerald-500 text-[10px] uppercase font-bold">Online</span>
+                        <h2 className="text-[12px] md:text-sm font-black text-slate-200 uppercase tracking-widest truncate">
+                            AI Assistant <span className="text-violet-500 mx-1">•</span> <span className="text-emerald-500 text-[9px] font-black">Live</span>
                         </h2>
                     </div>
 
@@ -181,16 +181,16 @@ const Chat = () => {
                 </header>
 
                 {/* Chat Messages */}
-                <div className={`flex-1 overflow-y-auto pt-6 scroll-smooth custom-scrollbar ${!user ? 'flex flex-col items-center' : ''}`}>
-                    <div className={`w-full ${!user ? 'max-w-2xl px-6' : 'max-w-4xl mx-auto px-6'}`}>
+                <div className={`flex-1 overflow-y-auto pt-4 md:pt-6 scroll-smooth custom-scrollbar ${!user ? 'flex flex-col items-center' : ''}`}>
+                    <div className={`w-full ${!user ? 'max-w-2xl px-4 md:px-6' : 'max-w-4xl mx-auto px-4 md:px-6'}`}>
                         {/* Welcome message for guests */}
                         {messages.length <= 1 && !user && (
-                            <div className="py-20 text-center space-y-6">
-                                <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-violet-600 to-indigo-600 mx-auto flex items-center justify-center shadow-2xl">
-                                    <Brain className="w-10 h-10 text-white" />
+                            <div className="py-12 md:py-20 text-center space-y-6">
+                                <div className="w-16 h-16 md:w-20 md:h-20 rounded-3xl bg-gradient-to-br from-violet-600 to-indigo-600 mx-auto flex items-center justify-center shadow-2xl">
+                                    <Brain className="w-8 h-8 md:w-10 md:h-10 text-white" />
                                 </div>
-                                <h1 className="text-4xl font-bold text-white tracking-tight">How can I help you?</h1>
-                                <p className="text-slate-400 font-medium">Ask me anything about your uploaded documents or general topics.</p>
+                                <h1 className="text-3xl md:text-4xl font-black text-white tracking-tight px-4">How can I help you?</h1>
+                                <p className="text-slate-400 font-medium px-6 text-sm md:text-base italic">Ask me anything about your documents or general topics.</p>
                             </div>
                         )}
 
@@ -224,11 +224,11 @@ const Chat = () => {
                 </div>
 
                 {/* Input Section */}
-                <div className="shrink-0 p-6 bg-[#020617] border-t border-white/5 relative z-20">
+                <div className="shrink-0 p-4 md:p-6 bg-[#020617] border-t border-white/5 relative z-20">
                     <div className={!user ? '' : 'max-w-4xl mx-auto'}>
                         <ChatInput onSend={handleSendMessage} disabled={showLoginModal} isCentered={!user} />
-                        <p className="text-[10px] text-center text-slate-600 font-bold uppercase tracking-widest mt-4">
-                            Powered by Agentic RAG • AI can make mistakes.
+                        <p className="text-[9px] text-center text-slate-600 font-black uppercase tracking-[0.2em] mt-4">
+                            Powered by Agentic RAG Neural Engine
                         </p>
                     </div>
                 </div>

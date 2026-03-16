@@ -89,19 +89,19 @@ const UsersList = () => {
         <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-6xl mx-auto space-y-8">
             
             {/* Header */}
-            <div className="flex justify-between items-end">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
                 <div>
-                    <h2 className="text-2xl font-bold text-white mb-2 flex items-center gap-3">
+                    <h2 className="text-2xl md:text-3xl font-black text-white mb-2 flex items-center gap-3 tracking-tight">
                         <UsersIcon className="w-6 h-6 text-rose-400" />
-                        Platform Identity Management
+                        Platform Identity
                     </h2>
-                    <p className="text-slate-400 text-sm font-medium">Manage user access, security roles, and platform administrators.</p>
+                    <p className="text-slate-400 text-sm font-medium">Manage user access and security roles.</p>
                 </div>
                 <button 
                     onClick={() => setShowAdminModal(true)}
-                    className="btn-primary shadow-violet-600/20 px-6 py-2.5 flex items-center gap-2 font-bold text-sm"
+                    className="w-full md:w-auto btn-primary shadow-violet-600/20 px-8 py-3.5 flex items-center justify-center gap-2 font-black text-xs uppercase tracking-widest"
                 >
-                    <UserPlus className="w-4 h-4" /> Add Administrator
+                    <UserPlus className="w-4 h-4" /> Add Admin
                 </button>
             </div>
 

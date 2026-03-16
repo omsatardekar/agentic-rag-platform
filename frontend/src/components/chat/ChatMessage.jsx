@@ -63,15 +63,15 @@ const ChatMessage = ({ role, content, sources = [], agentFlow = "", shouldType =
     };
 
     return (
-        <div className={`w-full flex py-12 border-b border-white/5 ${isAI ? 'bg-slate-900/50 relative' : ''}`}>
+        <div className={`w-full flex py-8 md:py-12 border-b border-white/5 ${isAI ? 'bg-slate-900/50 relative' : ''}`}>
             {isAI && <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-violet-600 to-indigo-600 shadow-[0_0_15px_rgba(124,58,237,0.3)]" />}
 
-            <div className="max-w-4xl mx-auto flex gap-8 px-8 w-full relative z-10">
-                <div className={`w-12 h-12 rounded-2xl shrink-0 flex items-center justify-center shadow-2xl transition duration-500 scale-100 hover:scale-110 ${isAI
+            <div className="max-w-4xl mx-auto flex gap-4 md:gap-8 px-4 md:px-8 w-full relative z-10">
+                <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl shrink-0 flex items-center justify-center shadow-2xl transition duration-500 scale-100 hover:scale-110 ${isAI
                     ? 'bg-gradient-to-br from-violet-600 to-indigo-600 ring-2 ring-violet-500/20'
                     : 'bg-slate-800 border border-white/5'
                     }`}>
-                    {isAI ? <Brain className="w-6 h-6 text-white" /> : <User className="w-6 h-6 text-slate-400" />}
+                    {role === 'assistant' ? <Brain className="w-5 h-5 md:w-6 md:h-6 text-white" /> : <User className="w-5 h-5 md:w-6 md:h-6 text-slate-400" />}
                 </div>
 
                 <div className="flex-1 min-w-0">
@@ -125,8 +125,8 @@ const ChatMessage = ({ role, content, sources = [], agentFlow = "", shouldType =
                                                                 {src.url ? <Globe className="w-5 h-5" /> : <FileText className="w-5 h-5" />}
                                                             </div>
                                                             <div className="min-w-0 flex-1">
-                                                                <div className="text-[13px] font-bold text-slate-200 truncate pr-4">{src.title || 'Untitled Reference'}</div>
-                                                                <div className="text-[10px] text-slate-500 font-black uppercase mt-1 tracking-widest">{src.url ? 'Web Source' : 'Verified Clinical Source'}</div>
+                                                                <div className="text-[12px] md:text-[13px] font-bold text-slate-200 truncate pr-2">{src.title || 'Untitled Reference'}</div>
+                                                                <div className="text-[9px] md:text-[10px] text-slate-500 font-black uppercase mt-1 tracking-widest">{src.url ? 'Web Source' : 'Verified Source'}</div>
                                                             </div>
                                                         </div>
                                                         {expandedSource === i ? <ChevronUp className="w-4 h-4 text-violet-400" /> : <ChevronDown className="w-4 h-4 text-slate-600 pr-2" />}
@@ -153,10 +153,10 @@ const ChatMessage = ({ role, content, sources = [], agentFlow = "", shouldType =
                             )}
 
                             {agentFlow && (
-                                <div className="flex items-center gap-5 px-6 py-4 rounded-3xl bg-white/[0.02] border border-white/5 shadow-inner">
+                                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-5 px-4 md:px-6 py-4 rounded-[2rem] bg-white/[0.02] border border-white/5 shadow-inner">
                                     <div className="text-[9px] font-black text-slate-600 uppercase tracking-widest whitespace-nowrap">Agent Flow</div>
-                                    <div className="flex-1 h-px bg-white/5" />
-                                    <div className="text-[10px] font-bold text-violet-400/60 italic tracking-tight">{agentFlow}</div>
+                                    <div className="hidden sm:block flex-1 h-px bg-white/5" />
+                                    <div className="text-[9px] md:text-[10px] font-bold text-violet-400/60 italic tracking-tight break-words w-full sm:w-auto">{agentFlow}</div>
                                 </div>
                             )}
 

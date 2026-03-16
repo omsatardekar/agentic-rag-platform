@@ -144,9 +144,9 @@ const Signup = () => {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full py-4.5 bg-white text-black hover:bg-slate-100 transition-all text-lg font-bold rounded-2xl shadow-xl active:scale-95 flex items-center justify-center gap-3 relative overflow-hidden"
+                                className="w-full py-5 bg-white text-black hover:bg-slate-100 transition-all text-lg font-black uppercase tracking-widest rounded-2xl shadow-xl active:scale-95 flex items-center justify-center gap-3 relative overflow-hidden"
                             >
-                                {loading ? 'Processing...' : 'Create Account'}
+                                {loading ? 'Creating...' : 'Join Now'}
                                 {loading ? <Loader2 className="animate-spin w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
                             </button>
                         </form>
