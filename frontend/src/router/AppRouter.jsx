@@ -9,6 +9,7 @@ import Login from "../pages/auth/Login"
 import Signup from "../pages/auth/Signup"
 
 import Chat from "../pages/chat/Chat"
+import Settings from "../pages/user/Settings"
 
 import Dashboard from "../pages/admin/Dashboard"
 import MainLayout from "../layouts/MainLayout"
@@ -31,12 +32,14 @@ function AppRouter() {
         <Route path="/signup" element={<Signup />} />
 
         {/* Interactive App Routes (Protected) */}
-        <Route
-          path="/chat"
-          element={
-            <Chat />
-          }
-        />
+        <Route path="/chat" element={<Chat />} />
+        <Route path="/chat/:convId" element={<Chat />} />
+
+        <Route path="/settings" element={
+            <ProtectedRoute>
+                <Settings />
+            </ProtectedRoute>
+        } />
 
         <Route
           path="/admin/dashboard"

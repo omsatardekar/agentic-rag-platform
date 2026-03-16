@@ -103,22 +103,22 @@ const ChatMessage = ({ role, content, sources = [], agentFlow = "", shouldType =
                                 <div className="border border-white/5 rounded-3xl overflow-hidden glass shadow-2xl bg-white/[0.02]">
                                     <button
                                         onClick={() => setShowSources(!showSources)}
-                                        className="w-full flex items-center justify-between px-6 py-4 hover:bg-white/5 transition group"
+                                        className="w-full flex items-center justify-between px-4 md:px-6 py-3 md:py-4 hover:bg-white/5 transition group"
                                     >
                                         <div className="flex items-center gap-3">
-                                            <FileText className="w-4 h-4 text-violet-400 group-hover:scale-110 transition" />
-                                            <span className="text-xs font-bold text-slate-400 group-hover:text-slate-200 tracking-wider uppercase">Supporting References ({sources.length})</span>
+                                            <FileText className="w-4 h-4 text-violet-400 group-hover:scale-110 transition shrink-0" />
+                                            <span className="text-[11px] md:text-xs font-bold text-slate-400 group-hover:text-slate-200 tracking-wider uppercase truncate">Supporting References ({sources.length})</span>
                                         </div>
                                         {showSources ? <ChevronUp className="w-4 h-4 text-slate-500" /> : <ChevronDown className="w-4 h-4 text-slate-500" />}
                                     </button>
 
                                     {showSources && (
-                                        <div className="px-6 pb-6 pt-2 space-y-3 animate-in fade-in zoom-in-95 duration-300">
+                                        <div className="px-3 md:px-6 pb-4 md:pb-6 pt-1 md:pt-2 space-y-2 md:space-y-3 animate-in fade-in zoom-in-95 duration-300">
                                             {sources.map((src, i) => (
-                                                <div key={i} className={`rounded-2xl border transition-all duration-300 ${expandedSource === i ? 'bg-white/5 border-violet-500/50 shadow-xl' : 'bg-white/[0.02] border-white/5 hover:border-violet-500/30'}`}>
+                                                <div key={i} className={`rounded-[1.25rem] md:rounded-2xl border transition-all duration-300 ${expandedSource === i ? 'bg-white/5 border-violet-500/50 shadow-xl' : 'bg-white/[0.02] border-white/5 hover:border-violet-500/30'}`}>
                                                     <button 
                                                         onClick={() => setExpandedSource(expandedSource === i ? null : i)}
-                                                        className="w-full flex items-center justify-between p-4"
+                                                        className="w-full flex items-center justify-between p-3 md:p-4"
                                                     >
                                                         <div className="flex items-center gap-4 flex-1 min-w-0 text-left">
                                                             <div className={`w-10 h-10 shrink-0 rounded-xl flex items-center justify-center transition duration-300 ${expandedSource === i ? 'bg-violet-600 text-white shadow-lg shadow-violet-600/20' : 'bg-violet-600/10 text-violet-400 border border-violet-500/20'}`}>
@@ -133,8 +133,8 @@ const ChatMessage = ({ role, content, sources = [], agentFlow = "", shouldType =
                                                     </button>
                                                     
                                                     {expandedSource === i && (
-                                                        <div className="px-5 md:px-6 pb-5 md:pb-6 pt-2 animate-in slide-in-from-top-2 duration-300 w-full">
-                                                            <div className="h-px bg-white/5 mb-4" />
+                                                        <div className="px-3 md:px-6 pb-4 md:pb-6 pt-1 md:pt-2 animate-in slide-in-from-top-2 duration-300 w-full">
+                                                            <div className="h-px bg-white/5 mb-3 md:mb-4" />
                                                             <div className="text-[11px] md:text-xs text-slate-400 leading-relaxed font-medium bg-slate-900/50 p-3 md:p-4 rounded-xl border border-white/5 break-words whitespace-pre-wrap overflow-x-hidden w-full">
                                                                 {src.content}
                                                             </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Brain, Sparkles, LogIn, UserPlus, MessageSquare, ChevronRight, Share2, MoreHorizontal, Loader2 } from 'lucide-react';
 import ChatSidebar from '../../components/chat/ChatSidebar';
 import ChatMessage from '../../components/chat/ChatMessage';
@@ -10,9 +10,10 @@ import { useAuth } from '../../context/AuthContext';
 const Chat = () => {
     const defaultMessage = { role: 'assistant', content: "Hello! I'm your AI assistant. You can upload documents in the dashboard and I'll help you analyze them. What would you like to know?" };
 
+    const { convId } = useParams();
     const [messages, setMessages] = useState([defaultMessage]);
     const [history, setHistory] = useState([]);
-    const [activeConvId, setActiveConvId] = useState(null);
+    const [activeConvId, setActiveConvId] = useState(convId || null);
     const [promptCount, setPromptCount] = useState(0);
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [showLoginModal, setShowLoginModal] = useState(false);
@@ -30,21 +31,29 @@ const Chat = () => {
         }
     }, [messages, isThinking]);
 
-    // Initial load logic
+    // Initial load logic and Route change
     useEffect(() => {
         if (!authLoading) {
             if (user) {
                 fetchHistory();
                 setIsSidebarOpen(true);
+                
+                if (convId) {
+                    loadConversation(convId);
+                } else {
+                    setMessages([defaultMessage]);
+                    setActiveConvId(null);
+                }
             } else {
                 setMessages([defaultMessage]);
+                setActiveConvId(null);
                 setIsSidebarOpen(false); // Guest mode
                 const savedCount = localStorage.getItem('rag_trial_count');
                 if (savedCount) setPromptCount(parseInt(savedCount));
             }
             setIsInitialLoad(false);
         }
-    }, [user, authLoading]);
+    }, [user, authLoading, convId]);
 
     const fetchHistory = async () => {
         try {
@@ -78,8 +87,14 @@ const Chat = () => {
             return;
         }
 
+        const isNewConv = !activeConvId;
         const currentConvId = activeConvId || `conv_${Date.now()}`;
-        if (!activeConvId) setActiveConvId(currentConvId);
+        
+        if (isNewConv) {
+            setActiveConvId(currentConvId);
+            // Just update the URL silently without triggering a remount
+            window.history.replaceState(null, '', `/chat/${currentConvId}`);
+        }
 
         const newMessages = [...messages, { role: 'user', content: text }];
         setMessages(newMessages);
@@ -120,11 +135,7 @@ const Chat = () => {
         }
     };
 
-    const handleNewChat = () => {
-        setMessages([defaultMessage]);
-        setActiveConvId(null);
-        if (!user) setIsSidebarOpen(false);
-    };
+
 
     const handleShare = () => {
         navigator.clipboard.writeText(window.location.href);
@@ -145,10 +156,8 @@ const Chat = () => {
                 <ChatSidebar
                     isOpen={isSidebarOpen}
                     toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
-                    onNewChat={handleNewChat}
                     history={history}
                     activeConvId={activeConvId}
-                    onSelectConv={loadConversation}
                     username={user.email.split('@')[0]}
                 />
             )}

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Brain, MessageSquare, Plus, LogOut, Settings, History, ChevronLeft, UserCircle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
-const ChatSidebar = ({ onNewChat, isOpen, toggleSidebar, username = "User", history = [], onSelectConv, activeConvId }) => {
+const ChatSidebar = ({ isOpen, toggleSidebar, username = "User", history = [], activeConvId }) => {
     const { logout } = useAuth();
     const navigate = useNavigate();
 
@@ -35,7 +35,7 @@ const ChatSidebar = ({ onNewChat, isOpen, toggleSidebar, username = "User", hist
                     </Link>
 
                     <button
-                        onClick={onNewChat}
+                        onClick={() => navigate('/chat')}
                         className="w-full flex items-center gap-3 px-5 py-3.5 bg-violet-600/10 border border-violet-500/20 rounded-2xl text-violet-400 font-bold text-sm hover:bg-violet-600 hover:text-white transition-all duration-300 group"
                     >
                         <Plus className="w-5 h-5 group-hover:rotate-90 transition duration-300" />
@@ -55,8 +55,8 @@ const ChatSidebar = ({ onNewChat, isOpen, toggleSidebar, username = "User", hist
                                 {history.length > 0 ? history.map((item) => (
                                     <button
                                         key={item.id}
-                                        onClick={() => onSelectConv(item.id)}
-                                        className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-sm font-medium relative ${activeConvId === item.id
+                                        onClick={() => navigate(`/chat/${item.id}`)}
+                                        className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-sm font-medium relative hover:bg-white/5 ${activeConvId === item.id
                                                 ? 'bg-white/10 text-white shadow-lg'
                                                 : 'text-slate-400 hover:text-white hover:bg-white/5'
                                             }`}
@@ -95,9 +95,9 @@ const ChatSidebar = ({ onNewChat, isOpen, toggleSidebar, username = "User", hist
                             <LogOut className="w-5 h-5" />
                         </button>
                         <button
-                            onClick={() => navigate('/admin/dashboard')}
+                            onClick={() => navigate('/settings')}
                             className="flex-1 py-3 bg-white/5 hover:bg-white/10 text-slate-400 rounded-xl transition flex items-center justify-center group active:scale-95"
-                            title="Settings / Dashboard"
+                            title="Account Settings"
                         >
                             <Settings className="w-5 h-5 group-hover:rotate-90 transition duration-500" />
                         </button>
