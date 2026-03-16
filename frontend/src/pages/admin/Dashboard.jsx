@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
     History, LayoutDashboard, FileText, Settings, LogOut,
     ChevronRight, Brain, Upload, BarChart3, Database,
-    ShieldCheck, Activity, Search, Plus, Play, MoreVertical, Loader2, Sparkles, Trash2, Users
+    ShieldCheck, Activity, Search, Plus, Play, MoreVertical, Loader2, Sparkles, Trash2, Users, X, Menu
 } from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import api from '../../services/api';
