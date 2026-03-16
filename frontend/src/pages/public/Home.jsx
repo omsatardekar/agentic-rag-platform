@@ -102,17 +102,17 @@ function Home() {
       <section className="py-20 px-4 md:px-6 z-10 relative">
         <div className="max-w-7xl mx-auto glass rounded-[3rem] md:rounded-[4rem] p-8 md:p-24 border border-white/5 flex flex-col md:flex-row justify-center md:justify-around gap-12 md:gap-16 text-center">
           <div className="flex flex-col items-center">
-            <div className="text-5xl md:text-8xl font-black text-white mb-2 tracking-tighter uppercase italic drop-shadow-lg">Verified</div>
+            <div className="text-5xl md:text-6xl lg:text-7xl font-black text-white mb-2 tracking-tighter uppercase italic drop-shadow-lg">Verified</div>
             <div className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-slate-500">Document Integrity</div>
           </div>
           <div className="hidden md:block w-px h-24 bg-white/10 self-center" />
           <div className="flex flex-col items-center">
-            <div className="text-5xl md:text-8xl font-black text-white mb-2 tracking-tighter uppercase italic drop-shadow-lg">Neural</div>
+            <div className="text-5xl md:text-6xl lg:text-7xl font-black text-white mb-2 tracking-tighter uppercase italic drop-shadow-lg">Neural</div>
             <div className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-slate-500">Retrieval Speed</div>
           </div>
           <div className="hidden md:block w-px h-24 bg-white/10 self-center" />
           <div className="flex flex-col items-center">
-            <div className="text-5xl md:text-8xl font-black text-white mb-2 tracking-tighter uppercase italic drop-shadow-lg">Active</div>
+            <div className="text-5xl md:text-6xl lg:text-7xl font-black text-white mb-2 tracking-tighter uppercase italic drop-shadow-lg">Active</div>
             <div className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-slate-500">Reasoning Engine</div>
           </div>
         </div>
