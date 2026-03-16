@@ -25,7 +25,7 @@ const Navbar = () => {
     ];
 
     return (
-        <nav className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${isScrolled ? 'bg-slate-950/80 backdrop-blur-2xl border-b border-white/5 py-3 md:py-4 shadow-2xl' : 'bg-transparent py-5 md:py-8'}`}>
+        <nav className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ${isScrolled ? 'bg-slate-950/80 backdrop-blur-2xl border-b border-white/5 py-2 md:py-4 shadow-2xl' : 'bg-transparent py-4 md:py-6'}`}>
             <div className="max-w-7xl mx-auto px-4 md:px-10 flex items-center justify-between relative">
                 
                 {/* Desktop: Centered Navigation */}
@@ -34,7 +34,7 @@ const Navbar = () => {
                         <Link
                             key={link.name}
                             to={link.path}
-                            className={`text-[11px] font-black uppercase tracking-[0.3em] transition-all duration-300 relative group overflow-hidden py-2 ${location.pathname === link.path ? 'text-white' : 'text-slate-500 hover:text-slate-200'}`}
+                            className={`text-[12px] md:text-[13px] font-black uppercase tracking-[0.2em] transition-all duration-300 relative group overflow-hidden py-2 ${location.pathname === link.path ? 'text-white' : 'text-slate-500 hover:text-slate-200'}`}
                         >
                             <span className="relative z-10">{link.name}</span>
                             <span className={`absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-violet-500 to-transparent transition-transform duration-500 origin-left ${location.pathname === link.path ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-110'}`} />
@@ -61,7 +61,7 @@ const Navbar = () => {
                             <>
                                 <Link
                                     to={user.role === 'admin' ? '/admin/dashboard' : '/chat'}
-                                    className="px-6 py-2.5 rounded-2xl bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition flex items-center gap-2"
+                                    className="px-6 py-2.5 rounded-2xl bg-white/5 border border-white/10 text-white text-[11px] font-black uppercase tracking-widest hover:bg-white/10 transition flex items-center gap-2"
                                 >
                                     <User className="w-4 h-4 text-violet-400" /> Dashboard
                                 </Link>
@@ -74,8 +74,8 @@ const Navbar = () => {
                             </>
                         ) : (
                             <div className="flex items-center gap-3">
-                                <Link to="/login" className="text-[10px] font-black text-slate-400 hover:text-white uppercase tracking-widest transition px-4 py-2">Login</Link>
-                                <Link to="/signup" className="btn-primary !px-8 !py-3 !rounded-[2rem] text-[10px] font-black uppercase tracking-widest">
+                                <Link to="/login" className="text-[11px] font-black text-slate-400 hover:text-white uppercase tracking-widest transition px-4 py-2">Login</Link>
+                                <Link to="/signup" className="btn-primary !px-6 !py-2.5 !rounded-2xl text-[11px] font-black uppercase tracking-widest">
                                     Join Now
                                 </Link>
                             </div>

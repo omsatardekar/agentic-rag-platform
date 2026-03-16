@@ -603,19 +603,19 @@ const Injection = ({ handleFileUpload, isUploading, reviewingText, setReviewingT
 
     return (
         <div className="animate-in fade-in duration-500">
-            <div className="max-w-4xl mx-auto space-y-8">
-                <label className={`glass-card p-16 text-center border-dashed border-2 border-white/10 hover:border-violet-500/50 hover:bg-violet-600/5 transition cursor-pointer group block relative overflow-hidden ${isUploading ? 'pointer-events-none opacity-50' : ''}`}>
+            <div className="max-w-4xl mx-auto space-y-8 px-2 md:px-0">
+                <label className={`glass-card p-8 md:p-16 text-center border-dashed border-2 border-white/10 hover:border-violet-500/50 hover:bg-violet-600/5 transition cursor-pointer group block relative overflow-hidden ${isUploading ? 'pointer-events-none opacity-50' : ''}`}>
                     <input type="file" className="hidden" onChange={handleFileUpload} />
                     <div className="relative z-10">
-                        <div className="w-24 h-24 rounded-3xl bg-violet-600/10 flex items-center justify-center mx-auto mb-8 group-hover:scale-110 transition duration-500">
-                            {isUploading ? <Loader2 className="w-12 h-12 text-violet-400 animate-spin" /> : <Upload className="w-12 h-12 text-violet-400" />}
+                        <div className="w-16 h-16 md:w-24 md:h-24 rounded-3xl bg-violet-600/10 flex items-center justify-center mx-auto mb-6 md:mb-8 group-hover:scale-110 transition duration-500">
+                            {isUploading ? <Loader2 className="w-8 h-8 md:w-12 md:h-12 text-violet-400 animate-spin" /> : <Upload className="w-8 h-8 md:w-12 md:h-12 text-violet-400" />}
                         </div>
-                        <h2 className="text-3xl font-bold mb-4">Unleash Your Documents</h2>
-                        <p className="max-w-md mx-auto text-slate-500 mb-10 leading-relaxed font-medium text-lg">
-                            Drag and drop your PDFs, Research Papers, Audio Interviews or Video recordings. Our high-fidelity OCR will handle the rest.
+                        <h2 className="text-2xl md:text-3xl font-black text-white mb-3 md:mb-4 tracking-tight">Unleash Your Data</h2>
+                        <p className="max-w-md mx-auto text-slate-500 mb-8 md:mb-10 leading-relaxed font-medium text-sm md:text-lg">
+                            Upload PDFs, docs, or simple text. Our high-fidelity neural ingestion parses it instantly.
                         </p>
-                        <div className="flex items-center justify-center gap-4">
-                            <div className="btn-primary px-10 py-4 shadow-violet-600/20 text-lg font-bold">Select Files Now</div>
+                        <div className="flex items-center justify-center gap-4 w-full">
+                            <div className="w-full md:w-auto btn-primary px-8 py-4 md:px-10 md:py-4 shadow-violet-600/20 text-sm md:text-lg font-black uppercase tracking-widest">Select File</div>
                         </div>
                     </div>
                 </label>
@@ -656,10 +656,10 @@ const DocumentsList = ({ documents, onDelete }) => (
                 <table className="w-full text-left">
                     <thead>
                         <tr className="bg-white/2 border-b border-white/5">
-                            <th className="px-8 py-6 text-xs font-bold text-slate-500 uppercase tracking-widest">Document Name</th>
-                            <th className="px-8 py-6 text-xs font-bold text-slate-500 uppercase tracking-widest">Source Type</th>
-                            <th className="px-8 py-6 text-xs font-bold text-slate-500 uppercase tracking-widest">Status</th>
-                            <th className="px-8 py-6 text-xs font-bold text-slate-500 uppercase tracking-widest text-right">Action</th>
+                            <th className="px-4 md:px-8 py-4 md:py-6 text-[10px] md:text-xs font-black text-slate-500 uppercase tracking-widest">Document</th>
+                            <th className="px-4 md:px-8 py-4 md:py-6 text-[10px] md:text-xs font-black text-slate-500 uppercase tracking-widest hidden sm:table-cell">Type</th>
+                            <th className="px-4 md:px-8 py-4 md:py-6 text-[10px] md:text-xs font-black text-slate-500 uppercase tracking-widest">Status</th>
+                            <th className="px-4 md:px-8 py-4 md:py-6 text-[10px] md:text-xs font-black text-slate-500 uppercase tracking-widest text-right">Action</th>
                         </tr>
                     </thead>
                     <tbody className="divide-y divide-white/5">
@@ -689,36 +689,36 @@ const DocumentRow = ({ id, name, type, status, onDelete }) => {
 
     return (
         <tr className="hover:bg-white/2 group transition">
-            <td className="px-8 py-6">
-                <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center font-black text-[10px] text-slate-600 group-hover:bg-violet-500/20 group-hover:text-violet-400 transition duration-300 uppercase">{name.split('.').pop()}</div>
-                    <div className="font-bold text-white text-sm truncate max-w-[200px]">{name}</div>
+            <td className="px-4 md:px-8 py-4 md:py-6">
+                <div className="flex items-center gap-3 md:gap-4">
+                    <div className="w-8 h-8 md:w-10 md:h-10 rounded-xl bg-slate-900 flex flex-col items-center justify-center font-black text-[8px] md:text-[10px] text-slate-600 group-hover:bg-violet-500/20 group-hover:text-violet-400 transition duration-300 uppercase leading-none">{name.split('.').pop()}</div>
+                    <div className="font-bold text-white text-[11px] md:text-sm truncate w-[100px] md:max-w-[200px] md:w-auto break-all">{name}</div>
                 </div>
             </td>
-            <td className="px-8 py-6 text-sm text-slate-500 font-bold tracking-tight italic">{type}</td>
-            <td className="px-8 py-6">
-                <div className="flex items-center gap-2">
-                    <div className={`w-2 h-2 rounded-full ${status === 'Indexed' ? 'bg-emerald-500 animate-pulse' : status === 'Transcribing' ? 'bg-violet-500 animate-pulse' : status === 'Error' ? 'bg-rose-500' : 'bg-slate-500'}`} />
-                    <span className={`text-[10px] font-black uppercase tracking-widest ${status === 'Indexed' ? 'text-emerald-400' : status === 'Transcribing' ? 'text-violet-400' : status === 'Error' ? 'text-rose-400' : 'text-slate-500'}`}>{status}</span>
+            <td className="px-4 md:px-8 py-4 md:py-6 text-xs md:text-sm text-slate-500 font-bold tracking-tight italic hidden sm:table-cell">{type}</td>
+            <td className="px-4 md:px-8 py-4 md:py-6">
+                <div className="flex items-center gap-1.5 md:gap-2">
+                    <div className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full ${status === 'Indexed' ? 'bg-emerald-500 animate-pulse ring-2 ring-emerald-500/20' : status === 'Transcribing' ? 'bg-violet-500 animate-pulse' : status === 'Error' ? 'bg-rose-500' : 'bg-slate-500'}`} />
+                    <span className={`text-[9px] md:text-[10px] font-black uppercase tracking-widest ${status === 'Indexed' ? 'text-emerald-400' : status === 'Transcribing' ? 'text-violet-400' : status === 'Error' ? 'text-rose-400' : 'text-slate-500'}`}>{status}</span>
                 </div>
             </td>
-            <td className="px-8 py-6 text-right relative">
+            <td className="px-4 md:px-8 py-4 md:py-6 text-right relative">
                 <button 
                     onClick={() => setShowActions(!showActions)}
-                    className="p-2 text-slate-600 hover:text-white transition"
+                    className="p-1 md:p-2 text-slate-600 hover:text-white transition"
                 >
-                    <MoreVertical className="w-5 h-5" />
+                    <MoreVertical className="w-4 h-4 md:w-5 md:h-5" />
                 </button>
                 {showActions && (
-                    <div className="absolute right-8 top-16 z-[60] w-48 glass-card border-white/10 p-2 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+                    <div className="absolute right-4 md:right-8 top-12 md:top-16 z-[60] w-48 glass-card border-white/10 p-2 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
                         <button 
                             onClick={() => {
                                 onDelete(id);
                                 setShowActions(false);
                             }}
-                            className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-rose-400 hover:bg-rose-500/10 transition font-bold text-xs"
+                            className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-rose-400 hover:bg-rose-500/10 transition font-black uppercase tracking-widest text-[10px]"
                         >
-                            <Trash2 className="w-4 h-4" /> Delete Document
+                            <Trash2 className="w-4 h-4" /> Delete
                         </button>
                     </div>
                 )}

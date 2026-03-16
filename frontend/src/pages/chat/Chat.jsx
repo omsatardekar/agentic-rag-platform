@@ -153,8 +153,7 @@ const Chat = () => {
                 />
             )}
 
-            <main className={`flex-1 flex flex-col relative transition-all duration-300 ${user && isSidebarOpen ? 'md:ml-72' : 'ml-0'}`}>
-
+            <main className={`flex-1 flex flex-col w-full relative overflow-x-hidden transition-all duration-300 ${user && isSidebarOpen ? 'md:ml-72' : 'ml-0'}`}>
                 {/* Header */}
                 <header className="h-16 flex items-center justify-between px-4 md:px-6 border-b border-white/5 bg-slate-900/20 backdrop-blur-md z-20 shrink-0">
                     <div className="flex items-center gap-3">
@@ -181,7 +180,7 @@ const Chat = () => {
                 </header>
 
                 {/* Chat Messages */}
-                <div className={`flex-1 overflow-y-auto pt-4 md:pt-6 scroll-smooth custom-scrollbar ${!user ? 'flex flex-col items-center' : ''}`}>
+                <div className={`flex-1 overflow-y-auto overflow-x-hidden pt-4 md:pt-6 scroll-smooth custom-scrollbar w-full ${!user ? 'flex flex-col items-center' : ''}`}>
                     <div className={`w-full ${!user ? 'max-w-2xl px-4 md:px-6' : 'max-w-4xl mx-auto px-4 md:px-6'}`}>
                         {/* Welcome message for guests */}
                         {messages.length <= 1 && !user && (
@@ -223,11 +222,10 @@ const Chat = () => {
                     </div>
                 </div>
 
-                {/* Input Section */}
-                <div className="shrink-0 p-4 md:p-6 bg-[#020617] border-t border-white/5 relative z-20">
-                    <div className={!user ? '' : 'max-w-4xl mx-auto'}>
+                <div className="shrink-0 p-4 md:p-6 bg-[#020617] border-t border-white/5 relative z-20 w-full overflow-hidden">
+                    <div className={`w-full ${!user ? '' : 'max-w-4xl mx-auto'}`}>
                         <ChatInput onSend={handleSendMessage} disabled={showLoginModal} isCentered={!user} />
-                        <p className="text-[9px] text-center text-slate-600 font-black uppercase tracking-[0.2em] mt-4">
+                        <p className="text-[9px] text-center text-slate-600 font-black uppercase tracking-[0.2em] mt-3 pb-1 md:pb-0">
                             Powered by Agentic RAG Neural Engine
                         </p>
                     </div>

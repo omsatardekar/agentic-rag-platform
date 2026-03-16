@@ -63,18 +63,18 @@ const ChatMessage = ({ role, content, sources = [], agentFlow = "", shouldType =
     };
 
     return (
-        <div className={`w-full flex py-8 md:py-12 border-b border-white/5 ${isAI ? 'bg-slate-900/50 relative' : ''}`}>
-            {isAI && <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-gradient-to-b from-violet-600 to-indigo-600 shadow-[0_0_15px_rgba(124,58,237,0.3)]" />}
+        <div className={`w-full flex py-6 md:py-10 border-b border-white/5 ${isAI ? 'bg-slate-900/50 relative' : ''}`}>
+            {isAI && <div className="absolute left-0 top-0 bottom-0 w-1 md:w-1.5 bg-gradient-to-b from-violet-600 to-indigo-600 shadow-[0_0_15px_rgba(124,58,237,0.3)]" />}
 
-            <div className="max-w-4xl mx-auto flex gap-4 md:gap-8 px-4 md:px-8 w-full relative z-10">
-                <div className={`w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl shrink-0 flex items-center justify-center shadow-2xl transition duration-500 scale-100 hover:scale-110 ${isAI
+            <div className="max-w-4xl mx-auto flex gap-3 md:gap-6 px-4 md:px-8 w-full relative z-10">
+                <div className={`w-8 h-8 md:w-12 md:h-12 rounded-xl md:rounded-2xl shrink-0 flex items-center justify-center shadow-2xl transition duration-500 scale-100 hover:scale-110 mt-1 md:mt-0 ${isAI
                     ? 'bg-gradient-to-br from-violet-600 to-indigo-600 ring-2 ring-violet-500/20'
                     : 'bg-slate-800 border border-white/5'
                     }`}>
-                    {role === 'assistant' ? <Brain className="w-5 h-5 md:w-6 md:h-6 text-white" /> : <User className="w-5 h-5 md:w-6 md:h-6 text-slate-400" />}
+                    {role === 'assistant' ? <Brain className="w-4 h-4 md:w-6 md:h-6 text-white" /> : <User className="w-4 h-4 md:w-6 md:h-6 text-slate-400" />}
                 </div>
 
-                <div className="flex-1 min-w-0">
+                <div className="flex-1 min-w-0 w-full overflow-hidden">
                     <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-3">
                             <span className={`text-[10px] font-black uppercase tracking-[0.25em] ${isAI ? 'text-violet-400' : 'text-slate-500'}`}>
@@ -92,13 +92,13 @@ const ChatMessage = ({ role, content, sources = [], agentFlow = "", shouldType =
                         )}
                     </div>
 
-                    <div className="text-slate-200 leading-[1.8] text-[1.1rem] font-medium whitespace-pre-wrap relative min-h-[1.8em]">
+                    <div className="text-slate-200 leading-[1.7] md:leading-[1.8] text-[15px] md:text-[1.1rem] font-medium whitespace-pre-wrap break-words relative min-h-[1.8em]">
                         {displayedContent}
-                        {isTyping && <span className="inline-block w-2 h-5 bg-violet-500 ml-1 animate-pulse align-middle" />}
+                        {isTyping && <span className="inline-block w-2 h-4 md:h-5 bg-violet-500 ml-1 animate-pulse align-middle" />}
                     </div>
 
                     {isAI && !isTyping && (
-                        <div className="mt-10 space-y-5 animate-in fade-in slide-in-from-bottom-2 duration-700">
+                        <div className="mt-8 md:mt-10 space-y-4 md:space-y-5 animate-in fade-in slide-in-from-bottom-2 duration-700 w-full">
                             {sources && sources.length > 0 && (
                                 <div className="border border-white/5 rounded-3xl overflow-hidden glass shadow-2xl bg-white/[0.02]">
                                     <button
@@ -133,14 +133,14 @@ const ChatMessage = ({ role, content, sources = [], agentFlow = "", shouldType =
                                                     </button>
                                                     
                                                     {expandedSource === i && (
-                                                        <div className="px-6 pb-6 pt-2 animate-in slide-in-from-top-2 duration-300">
+                                                        <div className="px-5 md:px-6 pb-5 md:pb-6 pt-2 animate-in slide-in-from-top-2 duration-300 w-full">
                                                             <div className="h-px bg-white/5 mb-4" />
-                                                            <div className="text-xs text-slate-400 leading-relaxed font-medium bg-slate-900/50 p-4 rounded-xl border border-white/5">
+                                                            <div className="text-[11px] md:text-xs text-slate-400 leading-relaxed font-medium bg-slate-900/50 p-3 md:p-4 rounded-xl border border-white/5 break-words whitespace-pre-wrap overflow-x-hidden w-full">
                                                                 {src.content}
                                                             </div>
                                                             {src.url && (
-                                                                <a href={src.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 mt-4 text-[10px] font-bold text-violet-400 hover:text-white transition uppercase">
-                                                                    <ExternalLink className="w-3 h-3" /> View Source
+                                                                <a href={src.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 mt-4 text-[10px] md:text-xs font-bold text-violet-400 hover:text-white transition uppercase break-all">
+                                                                    <ExternalLink className="w-3 h-3 md:w-4 md:h-4 shrink-0" /> <span className="truncate">{src.url}</span>
                                                                 </a>
                                                             )}
                                                         </div>
